@@ -11,9 +11,11 @@ path_to_roms = "roms"
 def main():
     global mode_gender
     global mode_lang
+    global mode_yuusha
 
     parser = argparse.ArgumentParser(description='Patch English script files for JP Dragon Quest IV ROM.')
     parser.add_argument('--file', help='File to be patched. must be present in the ./en directory. Disables automatic extracting and repacking.', default=None)
+    parser.add_argument('--yuusha', help='Player character name. Maximum 7 characters.', default='')
     parser.add_argument('--gender', help='[(n)|m|f|b] player character gender. options are neutral, male, female, both', default='n')
     parser.add_argument('--lang', help='[(en)|ja] rom language mode to target. en uses nametags, ja embeds the speaker name in text', default='en')
     parser.add_argument('--debug', dest='debug', action='store_true', help='Enable debug logs')
@@ -26,6 +28,9 @@ def main():
         exit(1)
     if args.lang not in ['en', 'ja']:
         logging.error(f'Unsupported --lang: {args.lang}')
+        exit(1)
+    if len(args.yuusha) > 7:
+        logging.error(f'Hero name must be 7 characters or less. Zannen desu.')
         exit(1)
     if args.debug:
         root = logging.getLogger()
@@ -332,6 +337,10 @@ def process_segment(filename, segment):
 
     # Fix grammar issues caused by replacements.
     processed_segment = fix_grammar(processed_segment)
+
+    # Hardcode protagonist name if given.
+    if len(mode_yuusha) > 0:
+        processed_segment = processed_segment.replace(b'%a00090',bytes(mode_yuusha,'ascii'))
 
     # Reflow lines.
     if (filename == 'b0801000.mpt'):
@@ -736,7 +745,7 @@ def repack(mode_lang: str, mode_gender: str, path_to_ndstool: str):
 
     # Repack the rom with ndstool
     print("Repacking rom...")
-    repacking = subprocess.run(path_to_ndstool + " -c \"patched/" + "Dragon Quest IV Party Chat Patched [" + "gender=" + mode_gender + " mode_lang=" + mode_lang + "].nds\"" + " -9 " + path_to_repack + "/arm9.bin -7 " + path_to_repack + "/arm7.bin -y9 " + path_to_repack + "/y9.bin -y7 " +
+    repacking = subprocess.run(path_to_ndstool + " -c \"patched/" + "Dragon Quest IV Party Chat Patched [" + "yuusha=" + mode_yuusha + " gender=" + mode_gender + " lang=" + mode_lang + "].nds\"" + " -9 " + path_to_repack + "/arm9.bin -7 " + path_to_repack + "/arm7.bin -y9 " + path_to_repack + "/y9.bin -y7 " +
                    path_to_repack + "/y7.bin -t " + path_to_repack + "/banner.bin -h " + path_to_repack + "/header.bin -d " + path_to_repack + "/data -y " + path_to_repack + "/overlay ", shell=True, stdout=subprocess.PIPE)
     print("Rom repacked!")
 
