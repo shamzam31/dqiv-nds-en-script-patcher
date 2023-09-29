@@ -1,6 +1,6 @@
 # Preface
 
-This fork is a slight tweak of concreted's excellent DraQue IV patcher, adding the option to give the protagonist a custom English name (at least in dialogs), which used to be a bit of a problem. This was achieved in an extremely naive way, namely by replacing all occurrences of `%a00090` (what appears to be a sort of pointer/placeholder for the name entered at the start) in the resource files.
+This fork is a slight tweak of @concreted's excellent DraQue IV patcher, adding the option to give the protagonist a custom English name (at least in dialogs), which used to be a bit of a problem. This was achieved in an extremely naive way, namely by replacing all occurrences of `%a00090` (what appears to be a sort of pointer/placeholder for the name entered at the start) in the resource files.
 
 # Usage
 
