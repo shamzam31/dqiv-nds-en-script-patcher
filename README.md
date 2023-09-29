@@ -1,3 +1,39 @@
+# Preface
+
+This fork is a slight tweak of concreted's excellent DraQue IV patcher, adding the option to give the protagonist a custom English name (at least in dialogs), which used to be a bit of a problem. This was achieved in an extremely naive way, namely by replacing all occurrences of `%a00090` (what appears to be a sort of pointer/placeholder for the name entered at the start) in the resource files.
+
+# Usage
+
+There is a new command line option, `--yuusha`. This option accepts an argument which will become the name of the protagonist.
+
+### Example
+
+`python3 dqiv_patch.py --yuusha Yangus`
+
+# Limitations
+
+- Because the patched ROM needs to be the same size as the original, so does the text. Therefore, the hero/ine's name is limited to the textual length of the aforementioned placeholder, which is 7 characters. This is unfortunately one less than the normal limit of 8, but still enough for most of your favorite profanities and/or racial slurs (just kidding).
+- The name displayed in menus will remain the Japanese one entered at the start of the game. No way around this I'm afraid.
+- The command line option is called `--yuusha`, which means "hero" (gender neutral) in Japanese. You can use find&replace if you'd like something more banal.
+- No extensive testing has been performed. That said, the game seems to be working fine (barring the issues mentioned elsewhere in this readme). Still, no guarantees or warranties of any kind.
+
+# License
+
+GPL v3. This goes out to you, Richard.
+
+
+
+
+
+> [!IMPORTANT]
+> All content beyond this point comes from the original README
+
+
+
+
+
+
+
 # Dragon Quest IV (NDS) English + Party Chat Script Patcher for Japan ROM
 
 Patches English script files from the US version of Dragon Quest IV for Nintendo DS and Android so they are rendered nicely when used with the Japan ROM. Addresses various issues caused by the Japan game code being not fully compatible with English script files.
